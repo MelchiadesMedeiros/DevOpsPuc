@@ -1,0 +1,58 @@
+name: DevOps Pipeline
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build React App
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+      
+      - name: Install Dependencies
+        working-directory: src
+        run: npm install
+
+      - name: Build
+        working-directory: src
+        run: npm run build
+
+  test:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Install Dependencies
+        working-directory: src
+        run: npm install
+
+      - name: Unit Tests
+        working-directory: src
+        run: npm run test
+
+  deploy:
+    name: Deploy App
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 16.x
+
+      - name: Deploy
+        run: | 
+          node deploy.js

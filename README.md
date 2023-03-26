@@ -1,7 +1,5 @@
 # DevOps Class
 
-## Hello World!
+## Descrição
 
-```bash
-echo "Hello World!"
-```
+Este repositório contém os exercícios para a atividade somativa da disciplina de DevOps.
